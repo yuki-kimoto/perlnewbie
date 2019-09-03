@@ -1,0 +1,135 @@
+<ol class="bread" itemscope itemtype="http://schema.org/BreadcrumbList">
+  <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+    <a itemprop="item" href="/">
+        <span itemprop="name">Perl</span></a>
+    <meta itemprop="position" content="1" />
+  </li>
+  &#8250;
+  <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+    <a itemprop="item" href="/blog/20161004147558.html">
+      <span itemprop="name">Functions</span></a>
+    <meta itemprop="position" content="2" />
+  </li>
+  &#8250;
+  <li>
+    here
+  </li>
+</ol>
+<h2>index function - Search for string</h2>
+
+<strong>index function</strong> search for <a href="/blog/20161003147558.html">string</a>.
+
+<pre>
+my $pos = index($target, $str);
+</pre>
+
+Specify string in the first argument, and specify string searched for in the second argument. You can specify searching start position in the third argument. If omitted, the search starts from the beginning of the string. If string is found, the position is returned. If string is not found, -1 is returned.
+
+<h4>Search for string that appears the second time</h4>
+
+<pre>
+my $word_love_pos_second = index($message, 'love', $word_love_pos_first + 1);
+</pre>
+
+You can specify start position in the third argument of index function. Specify next position you get by first index function.
+
+<h4>Get all positions of searched string</h4>
+
+<pre>
+{
+  my @found_positions = ();
+  my $found_posision = -1;
+    
+  while (1) { 
+    $found_posision = index($message, 'love', $found_posision + 1);
+    last if $found_posision == -1;
+    push @found_positions, $found_posision;
+  }
+    
+  print "Found: " . join(', ', @found_positions) . "\n";
+}
+</pre>
+
+In while statement, repeat index function until return value is -1.
+
+<h4>If you want to handle Japanese</h4>
+
+To handle Multibyte string such as Japanese correctly with the index function, the string must be decoded string. For decoded string, see the following article.
+
+<ul>
+  <li>
+    <a href="/blog/20091118124667.html">Encode module - properly handles multibyte string such as Japanese</a>
+  </li>
+</ul>
+
+<h4>Search by regular expression</h4>
+
+You can also search for a string using <a href="/blog/20100827127859.html">regular expressions</a>. If you want to specify the target string instead of the character position, use a regular expression.
+
+<pre>
+# Check "Ken" existance using regular expression
+my $message = "I'm Ken";
+if ($message =~ /Ken/) {
+  ...
+}
+</pre>
+
+<h3>index function programming example</h3>
+
+This is a example to find the first position of comma using index function.
+
+<pre>
+# Find the first position of the comma
+my $csv = 'aaa,bbb,ccc';
+my $pos = index($csv, ',');
+</pre>
+
+if true block is processed only when the string is found.
+
+<pre>
+# Process only if the string is found
+my $string = "I'm Ken";
+my $search = 'Ken';
+
+if (index($string, $search) != -1) {
+  print "Found\n";
+}
+</pre>
+
+Other examples.
+
+<pre>
+use strict;
+use warnings;
+
+my $message = "love love love.";
+
+# Search for string "love" using index function
+my $word_love_pos_first = index($message, 'love');
+
+# Search for second "love"
+my $word_love_pos_second = index($message, 'love', $word_love_pos_first + 1);
+
+print "First: $word_love_pos_first, Second: $word_love_pos_second\n";
+
+# Search for string repeatedly
+{
+  my @found_positions = ();
+  my $found_posision = -1;
+    
+  while (1) { 
+    $found_posision = index($message, 'love', $found_posision + 1);
+    last if $found_posision == -1;
+    push @found_positions, $found_posision;
+  }
+
+  print "Found: " . join(', ', @found_positions) . "\n";
+}
+</pre>
+
+Output:
+
+<pre>
+First: 0, Second: 5
+Found: 0, 5, 10
+</pre>
