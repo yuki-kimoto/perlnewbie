@@ -1,0 +1,124 @@
+<ol class="bread" itemscope itemtype="http://schema.org/BreadcrumbList">
+  <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+    <a itemprop="item" href="/">
+        <span itemprop="name">Perl</span></a>
+    <meta itemprop="position" content="1" />
+  </li>
+  &#8250;
+  <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+    <a itemprop="item" href="/blog/20091116124667.html">
+      <span itemprop="name">Modules</span></a>
+    <meta itemprop="position" content="2" />
+  </li>
+  &#8250;
+  <li>
+    here
+  </li>
+</ol>
+
+<h2>strict - strictify grammar check</h2>
+
+<b>strict module</b> strictify Perl grammar checking.
+
+<pre>
+use strict;
+</pre>
+
+strict module strictify Perl syntax checking. Make sure to write strict module when you write Perl program in current days. If an undeclared variable is used and you run the script, program stops with compile error messages.
+
+<h3>Description of strict module</h3>
+
+Let's see the effects of strict module. strict module has a certain effect.
+
+<h4>Force variable declaration</h4>
+
+The first effect is <strong>forcing variable declaration</strong>. In Perl, variables declared using my are called lexical variables. If you use strict module, you force variable declaration using my.
+
+<pre>
+use strict;
+
+# No error occurs because the variable is declared
+my $num;
+$num = 1
+</pre>
+
+<pre>
+use strict;
+
+# An error occurs because variable is used without declaration using my
+$num2 = 2
+</pre>
+
+In the second example, the program ends without excecution and the following error message is showed.
+
+<pre>
+Global symbol "$num2" requires explicit package name at a.pl line 4.
+</pre>
+
+This message means undeclared variable "$num2" is used at a.pl line 4 on effects of strict module.
+
+<h4>Forbid using barewords</h4>
+
+The second effect of strict module is forbidding using barewords. Bareword means not quoted string. Perl allows you to use barewords if strict module is not enabled. If you enable strict module, using barewords is forbidden.
+
+<pre>
+use strict;
+
+# No error because the string is quoted
+my $str = 'abcde';
+</pre>
+
+<pre>
+use strict;
+
+# An error occurs because the string is bareword.
+my $str = abcde;
+</pre>
+
+In the second example, the program ends with the following error message.
+
+<pre>
+Bareword "abcde" not allowed while "strict subs" in use at a.pl line 3.
+</pre>
+
+<h4>Forbid symbolic references</h4>
+
+The third effect of strict module is <strong>forbid symbolic references</strong>. Perl has a feature called symbolic references. strict module forbids using symbolic references.
+
+A symbolic reference is a feature that you can access a variable or a function using a string.
+
+Look at the script below.
+
+<pre>
+# Addition function
+sub total {
+  my ($num1, $num2) = @_;
+  
+  return $num1 + $num2;
+}
+
+# Symbolic reference
+my $num = &{'total'}(1 + 2);
+
+print $num;
+</pre>
+
+This program has total function. Instead of calling “total(1 + 2)”, this program calls total function by using symbolic reference "&{'total'} (1 + 2)".
+
+If strict module is enabled, this programu ends with the following message.
+
+<pre>
+Can't use string ("total") as a subroutine ref while "strict refs" in use at a.pl line 11.
+</pre>
+
+
+Sometimes you may need to use symbolic references. For example, when you want to define subroutines dynamically. In such a case, you can allow using symbolic references.
+
+<pre>
+use strict;
+
+# Allow using symbolic references
+no strict 'refs';
+</pre>
+
+strict module has three effects: "force variable declaration", "forbid barewords" and "forbid symbolic references".
