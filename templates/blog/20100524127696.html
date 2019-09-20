@@ -1,0 +1,55 @@
+<ol class="bread" itemscope itemtype="http://schema.org/BreadcrumbList">
+  <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+    <a itemprop="item" href="/">
+        <span itemprop="name">Perl</span></a>
+    <meta itemprop="position" content="1" />
+  </li>
+  &#8250;
+  <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+    <a itemprop="item" href="/blog/20091116124667.html">
+      <span itemprop="name">Modules</span></a>
+    <meta itemprop="position" content="2" />
+  </li>
+  &#8250;
+  <li>
+    here
+  </li>
+</ol>
+
+<h2>FindBin - Get the path of the directory where the script exists</h2>
+
+<strong>FindBin</strong> module gets the path of the directory where the script exists.
+
+<pre>
+use FindBin;
+</pre>
+
+The path of the directory where the script exists is assigned to <strong>$FindBin::Bin</strong> <a href="/blog/20080308120495.html">package variable</a>.
+
+<pre>
+# Get the path of the directory where the script exists
+my $script_dir = $FindBin::Bin;
+</pre>
+
+FindBin is a little strange module. but it is a standard way to get the path of the directory where the script exists.
+
+<h4>Set the path to load modules</h4>
+
+FindBin module is offten used together with <a href="/blog/20100525127859.html">lib</a> module.
+
+You can set the path to load modules to the path of the directory where the script exists.
+
+<pre>
+# Set the path to load modules to "lib" in the directory where the script exists.
+use FindBin;
+use lib "$FindBin::Bin/lib";
+</pre>
+
+<h4>Script base name</h4>
+
+You can get the base name of the script using <strong>$FindBin::Script</strong>.
+
+<pre>
+use FindBin;
+$FindBin::Script
+</pre>
