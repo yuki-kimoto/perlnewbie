@@ -1,0 +1,96 @@
+<ol class="bread" itemscope itemtype="http://schema.org/BreadcrumbList">
+  <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+    <a itemprop="item" href="/">
+        <span itemprop="name">Perl</span></a>
+    <meta itemprop="position" content="1" />
+  </li>
+  &#8250;
+  <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+    <a itemprop="item" href="/blog/20091116124667.html">
+      <span itemprop="name">Modules</span></a>
+    <meta itemprop="position" content="2" />
+  </li>
+  &#8250;
+  <li>
+    here
+  </li>
+</ol>
+<h2>File::Basename - Get the base name of a file</h2>
+
+<strong>File::Basename</strong> is a module to get the base name a file and the directory name of a file. You can use the following three functions.
+
+<ul>
+  <li>
+    <strong>basename</strong> - Get the base name of a file
+  </li>
+  <li>
+    <strong>dirname</strong> - Get the directory name of a file
+  </li>
+  <li>
+    <strong>fileparse</strong> - A little more complex operations
+  </li>
+</ul>
+
+It is good to import these functions explicitly.
+
+<pre>
+# Import functions
+use File::Basename 'basename', 'dirname';
+</pre>
+
+<h3>basename function</h3>
+
+basename function gets the base name of the file. the base name means the last part of the file name (If a file is "/foo/bar/baz.txt", the base name is "baz.txt").
+
+<pre>
+# Get the base name of a file
+$basename = basename $file;
+</pre>
+
+<h3>dirname function</h3>
+
+dirname gets the directory name of a file.
+
+<pre>
+# Get directory name
+$dirname = dirname $file;
+</pre>
+
+Examples of basename function and dirname function. If a file is "dir/a.txt", you can get "a.txt" as the base name and get "dir" as the directory name.
+
+<pre>
+# Get the base name and the directory name of a file
+use File::Basename qw/basename dirname/;
+my $file = 'dir/a.txt';
+my $basename = basename $file;
+my $dirname = dirname $file;
+</pre>
+
+<h3>A little more complex operations of a file</h3>
+
+If you use fileparse function, you can get the base name and directory name of a file at once.
+
+<pre>
+# Get the base name and directory name of a file at once
+($basename, $dirname) = fileparse $file;
+</pre>
+
+If you pass a extension using<a href="/blog/20100827127859.html">regular expression</a> to the second argument of fileparse, you can get the base name and extension separately.
+
+<pre>
+# Get base name, directory name, extension
+($basename, $dirname, $ext) = fileparse($file, $regex);
+</pre>
+
+Example of extracting the extension using a regular expression. The regular expression "\..*$" means ". come, zero or more any characters come, end of the string come". If $file is "dir/a.txt", $basename becomes "a" and $ext becomes ".txt".
+
+<pre>
+# Extract the extension
+use File::Basename 'fileparse';
+my $file = 'dir/a.txt';
+my ($basename, $dirname, $ext) = fileparse($file, qr/\..*$/);
+</pre>
+
+The above example extracts the extension, but if the extension continues twice, the extension after the first extension is extracted. For example, if the file name is "dir/a.txt.gz", $ext becomes ".txt.gz".
+
+If you want to extract ".gz", change the regular expression to "\.[^\.]*$". This regular expression means ". come, zero or more characters except . come, ,end of the string come".
